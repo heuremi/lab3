@@ -36,6 +36,7 @@ class Servidor{
         }
 };
 
+//Lee el archivo de servidores, crea y agrega estos servidores a la lista general de servidores.
 vector<Servidor*> leerCsv(string nombreCsv){
     vector<Servidor*> servidores;
     ifstream archivo(nombreCsv);
@@ -62,6 +63,7 @@ vector<Servidor*> leerCsv(string nombreCsv){
     return servidores;
 };
 
+//Crea un grafo a partir de las conexiones de los servidores.
 vector<Servidor*> generarGrafo(string nombreCsv, vector<Servidor*> servidoresArchivo){
     ifstream archivo(nombreCsv);
     if(!archivo){
@@ -100,6 +102,7 @@ vector<Servidor*> generarGrafo(string nombreCsv, vector<Servidor*> servidoresArc
     return servidoresArchivo;
 };
 
+//Algoritmo Bellman Ford para encontrar el camino mas corto.
 vector<pair<Servidor*, pair<Servidor*, double>>> bellmanFord(vector<Servidor*> servidores, Servidor* origen, Servidor* destino, double pesoMensaje) {
     int n = servidores.size();
     vector<pair<Servidor*, pair<Servidor*, double>>> distancias(n);
@@ -134,6 +137,7 @@ vector<pair<Servidor*, pair<Servidor*, double>>> bellmanFord(vector<Servidor*> s
     return distancias;
 };
 
+//Recorre el vector de las distancias para encontrar el camino desde el destino hacia el origen.
 stack<pair<Servidor*, pair<Servidor*, double>>> encontrarCamino(stack<pair<Servidor*, pair<Servidor*, double>>> camino, Servidor* servidorActual, vector<pair<Servidor*, pair<Servidor*, double>>> distancias, Servidor* origen){
     if(servidorActual == origen){
         return camino;
@@ -149,6 +153,7 @@ stack<pair<Servidor*, pair<Servidor*, double>>> encontrarCamino(stack<pair<Servi
     return camino;
 };
 
+//Pide al usuario ingresar el servidor de origen, el servidor de destino y el tamaño del mensaje, y en base a esto se intenta mandar el mensaje.
 void enviarMensaje(vector<Servidor*> servidores) {
     // Obtener el servidor de origen
     string idOrigen;
@@ -226,6 +231,7 @@ void enviarMensaje(vector<Servidor*> servidores) {
     }
 };
 
+//Se le pregunta al usuario si desea ver todos los servidores, enviar un mensaje o salir.
 void menu(vector<Servidor*> servidores){
     string opcion;
     cout << "\n------ Menu ------\n";
