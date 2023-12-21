@@ -6,6 +6,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <limits>
+#include <stack>
 
 using namespace std;
 
@@ -114,26 +115,39 @@ vector<pair<Servidor*, pair<Servidor*, double>>> bellmanFord(vector<Servidor*> s
         for (Servidor* servidorActual : servidores) {
             for (const auto& conexionActual : servidorActual->getConexiones()) {
                 double tiempo = (pesoMensaje / conexionActual.second.first) * conexionActual.second.second; // Calcular tiempo
-                try {
-                    int idServidorActual = stoi(servidorActual->getId());
-                    int idConexionActual = stoi(conexionActual.first->getId());
-                    if(servidorActual == origen){
-                        distancias[idServidorActual].second.second = 0;
-                    }
-                    if (distancias[idServidorActual].second.second < megaDouble && distancias[idServidorActual].second.second + tiempo < distancias[idConexionActual].second.second) {
-                        distancias[idConexionActual].second.first = servidorActual;
-                        distancias[idConexionActual].second.second = distancias[idServidorActual].second.second + tiempo;
-                    }
-                } catch (const std::invalid_argument& e) {
-                    // Manejar el error, por ejemplo, imprimir un mensaje y salir
-                    cerr << "Error: ID no válido\n";
-   
+                int idServidorActual = stoi(servidorActual->getId());
+                int idConexionActual = stoi(conexionActual.first->getId());
+                if(idServidorActual == idConexionActual){
+                    continue;
+                }
+                if(servidorActual == origen){
+                    distancias[idServidorActual].second.second = 0;
+                }
+                if (distancias[idServidorActual].second.second < megaDouble && distancias[idServidorActual].second.second + tiempo < distancias[idConexionActual].second.second) {
+                    distancias[idConexionActual].second.first = servidorActual;
+                    distancias[idConexionActual].second.second = distancias[idServidorActual].second.second + tiempo;
                 }
             }
         }
     }
 
     return distancias;
+};
+
+stack<pair<Servidor*, pair<Servidor*, double>>> encontrarCamino(stack<pair<Servidor*, pair<Servidor*, double>>> camino, Servidor* servidorActual, vector<pair<Servidor*, pair<Servidor*, double>>> distancias, Servidor* origen){
+    if(servidorActual == origen){
+        return camino;
+    }
+    
+    for(int i = 0; i < distancias.size(); i++){
+        cout << distancias[i].first->getId() << endl;
+        if(distancias[i].first == servidorActual){
+            cout << distancias[i].first->getId() << " " << distancias[i].second.first->getId() << endl;
+            camino.push(make_pair(distancias[i].first, make_pair(distancias[i].second.first, distancias[i].second.second)));
+            return encontrarCamino(camino, distancias[i].second.first, distancias, origen);
+        }
+    }
+    return camino;
 };
 
 void enviarMensaje(vector<Servidor*> servidores) {
@@ -189,17 +203,28 @@ void enviarMensaje(vector<Servidor*> servidores) {
     // Calcular la ruta y tiempos utilizando Bellman-Ford
     vector<pair<Servidor*, pair<Servidor*, double>>> distancias = bellmanFord(servidores, origen, destino, pesoMensaje);
 
+    int posDestino;
     // Mostrar la ruta y los tiempos
     for(int i = 0; i < distancias.size(); i++){
         if(distancias[i].first->getId() == destino->getId()){
             if(distancias[i].second.first == origen){
                 cout << "No fue posible enviar el mensaje.\n";
+                return;
+            } else {
+                posDestino = i;
+                break;
             }
-            cout << "Ultimo servidor: " << distancias[i].second.first->getId() << ", tiempo total: " << distancias[i].second.second << endl;
-            return;
         }
     }
 
+    stack<pair<Servidor*, pair<Servidor*, double>>> camino;
+    camino.push(make_pair(distancias[posDestino].first, make_pair(distancias[posDestino].second.first, distancias[posDestino].second.second)));
+    camino = encontrarCamino(camino, distancias[posDestino].second.first, distancias, origen);
+
+    while(!camino.empty()){
+        cout << "Servidor 1: " << camino.top().second.first->getId() << ", Servidor 2: " << camino.top().first->getId() << ", Tiempo acumulado: " << camino.top().second.second << endl;
+        camino.pop();
+    }
 };
 
 void menu(vector<Servidor*> servidores){
