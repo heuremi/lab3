@@ -117,7 +117,7 @@ vector<pair<Servidor*, pair<Servidor*, double>>> bellmanFord(vector<Servidor*> s
                 double tiempo = (pesoMensaje / conexionActual.second.first) * conexionActual.second.second; // Calcular tiempo
                 int idServidorActual = stoi(servidorActual->getId());
                 int idConexionActual = stoi(conexionActual.first->getId());
-                if(idServidorActual == idConexionActual){
+                if(distancias[idConexionActual].first == servidorActual){
                     continue;
                 }
                 if(servidorActual == origen){
@@ -140,7 +140,6 @@ stack<pair<Servidor*, pair<Servidor*, double>>> encontrarCamino(stack<pair<Servi
     }
     
     for(int i = 0; i < distancias.size(); i++){
-        cout << distancias[i].first->getId() << endl;
         if(distancias[i].first == servidorActual){
             cout << distancias[i].first->getId() << " " << distancias[i].second.first->getId() << endl;
             camino.push(make_pair(distancias[i].first, make_pair(distancias[i].second.first, distancias[i].second.second)));
