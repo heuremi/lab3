@@ -20,6 +20,6 @@ void menu(vector<Servidor*> servidores): Se le pregunta al usuario si desea ver 
 
 •	Se realiza un bucle principal que itera n - 1 veces, donde n es el número de servidores en la red. Esto garantiza que el algoritmo explore todos los posibles caminos más cortos.
 
-•	El bucle “for (Servidor* servidorActual : servidores)” itera sobre cada servidor en la red en cada iteración del bucle externo. Esto significa que en cada paso, el algoritmo considera todos los servidores como posibles nodos intermedios en los caminos más cortos.
+•	El siguiente ciclo for “for (Servidor* servidorActual : servidores)” itera sobre cada servidor. Esto significa que en cada paso, el algoritmo considera todos los servidores como posibles nodos intermedios en los caminos más cortos.
 
-•	El bucle “for (const auto& conexionActual : servidorActual->getConexiones())” itera sobre todas las conexiones del servidor actual, calculando el tiempo de transmisión para cada conexión y compara las distancias para cada una, si se encuentra un camino más corto se actualiza.
+•	El bucle “for (const auto& conexionActual : servidorActual->getConexiones())” itera sobre todas las conexiones del servidor actual, calculando el tiempo de transmisión del mensaje para cada conexión y quednadose con el que sea menor.
