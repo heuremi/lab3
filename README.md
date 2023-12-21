@@ -10,6 +10,8 @@ vector<Servidor*> leerCsv(string nombreCsv): Lee el archivo de servidores, crea 
 
 vector<Servidor*> generarGrafo(string nombreCsv, vector<Servidor*> servidoresArchivo): Crea un grafo a partir de las conexiones de los servidores.
 
+stack<pair<Servidor*, pair<Servidor*, double>>> encontrarCamino(stack<pair<Servidor*, pair<Servidor*, double>>> camino, Servidor* servidorActual, vector<pair<Servidor*, pair<Servidor*, double>>> distancias, Servidor* origen): Recorre el vector de las distancias para encontrar el camino desde el destino hacia el origen.
+
 void enviarMensaje(vector<Servidor*> servidores): Pide al usuario ingresar el servidor de origen, el servidor de destino y el tamaño del mensaje, y en base a esto se intenta mandar el mensaje.
 
 void menu(vector<Servidor*> servidores): Se le pregunta al usuario si desea ver todos los servidores, enviar un mensaje o salir.
