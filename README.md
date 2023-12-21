@@ -6,7 +6,7 @@ Constanza Vázquez
 María Victoria Quiroga
 
 ## Funciones del main:
-vector<Servidor*> leerCsv(string nombreCsv): Lee el archivo de servidores, crea y agrega estos servidores a la lista con todos los servidores.
+vector<Servidor*> leerCsv(string nombreCsv): Lee el archivo de servidores, crea y agrega estos servidores a la lista general de servidores.
 
 vector<Servidor*> generarGrafo(string nombreCsv, vector<Servidor*> servidoresArchivo): Crea un grafo a partir de las conexiones de los servidores.
 
@@ -15,9 +15,8 @@ void enviarMensaje(vector<Servidor*> servidores): Pide al usuario ingresar el se
 void menu(vector<Servidor*> servidores): Se le pregunta al usuario si desea ver todos los servidores, enviar un mensaje o salir.
 
 ## Explicación del algoritmo Bellman Ford:
-vector<pair<Servidor*, pair<Servidor*, double>>> bellmanFord(vector<Servidor*> servidores, Servidor* origen, Servidor* destino, double pesoMensaje):
 
-•	Inicialización de distancias: Se crea un vector distancias con tripletes inicializados con cada servidor, el servidor de origen como previo, y un valor inicial de tiempo (inicializado a un valor grande megaDouble).
+•	El primer ciclo for sirve para inicializar todas las distancias desde el servidor en la posición i hasta el origen como un valor muy grande (megadouble).
 
 •	Se realiza un bucle principal que itera n - 1 veces, donde n es el número de servidores en la red. Esto garantiza que el algoritmo explore todos los posibles caminos más cortos.
 
