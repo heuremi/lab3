@@ -1,4 +1,4 @@
-# Laboratorio 3
+# Laboratorio 3 - Estructura de datos
 
 ## Integrantes:
 Constanza Vázquez
