@@ -23,3 +23,7 @@ void menu(vector<Servidor*> servidores): Se le pregunta al usuario si desea ver 
 •	El siguiente ciclo for “for (Servidor* servidorActual : servidores)” itera sobre cada servidor. Esto significa que en cada paso, el algoritmo considera todos los servidores como posibles nodos intermedios en los caminos más cortos.
 
 •	El bucle “for (const auto& conexionActual : servidorActual->getConexiones())” itera sobre todas las conexiones del servidor actual, calculando el tiempo de transmisión del mensaje para cada conexión y quednadose con el que sea menor.
+
+## Comandos para iniciar el codigo desde la terminal
+g++ -o main main.cpp
+./main
